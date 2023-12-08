@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\profileController;
+use App\Http\Controllers\ProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +24,6 @@ Route::get('/about', function () {
     return 'Halaman About';
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -57,5 +52,5 @@ Route::get('/about/{search}', function () {
 //     return view ('profile', compact('nama'));
 // });
 Route::resource('user', UserController::class);
-Route::resource('produk', ProdukController::class);
 Route::resource('profile', ProfileController::class);
+Route::resource('produk', ProdukController::class);

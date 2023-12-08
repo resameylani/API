@@ -2,17 +2,67 @@
 
 namespace App\Http\Controllers;
 
+//import Model "Post
+use App\Models\produk;
+
+//return type View
+use Illuminate\View\View;
+
 use Illuminate\Http\Request;
 
-class produkController extends Controller
+class ProdukController extends Controller
 {
-    public function index(){
-        $data = [
-            'pageTitle' => 'Tentang Kami',
-            'content' => 'Ini adalah halaman tentang kami.'
-        ];   
+    /**
+     * index
+     *
+     * @return View
+     */
+    public function index(): View
+    {
+        //get posts
+        $produk = produk::get();
 
-        $data2 = "test";
-        return view('produk', compact('data'));
+        //render view with posts
+        return view('produk.index', compact('produk'));
+    }
+    public function create(){
+        return view('produk.create');
+    }
+    public function store(Request $request){
+        produk::create([
+            'produk' => $request->produk,
+            'price' => $request->price,
+            'stock' => $request->stock,
+        ]);
+
+        return redirect('/produk');
+    }
+    public function edit($id)
+    {
+    $produk = Produk::find($id);
+    return view('produk.edit', compact('produk'));
+    }
+    public function destroy($id)
+    {
+        $product = Produk::find($id);
+
+        if (!$product) {
+            return redirect('/produk')->with('error', 'Produk tidak ditemukan');
+        }
+
+        $product->delete();
+
+        return redirect('/produk')->with('success', 'Produk berhasil dihapus');
+    }
+    public function update(Request $request, $id)
+    {
+    $produk = Produk::find($id);
+    $produk->update([
+        'product' => $request->product,
+        'price'   => $request->price,
+        'stock'   => $request->stock,
+    ]);
+
+    return redirect('/produk');
     }
 }
