@@ -44,13 +44,13 @@ class ProdukController extends Controller
     }
     public function destroy($id)
     {
-        $product = Produk::find($id);
+        $produk = Produk::find($id);
 
-        if (!$product) {
+        if (!$produk) {
             return redirect('/produk')->with('error', 'Produk tidak ditemukan');
         }
 
-        $product->delete();
+        $produk->delete();
 
         return redirect('/produk')->with('success', 'Produk berhasil dihapus');
     }
@@ -58,7 +58,7 @@ class ProdukController extends Controller
     {
     $produk = Produk::find($id);
     $produk->update([
-        'product' => $request->product,
+        'produk' => $request->produk,
         'price'   => $request->price,
         'stock'   => $request->stock,
     ]);
