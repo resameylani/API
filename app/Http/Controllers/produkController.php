@@ -9,7 +9,7 @@ use App\Models\produk;
 use Illuminate\View\View;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class ProdukController extends Controller
 {
     /**
@@ -29,6 +29,16 @@ class ProdukController extends Controller
         return view('produk.create');
     }
     public function store(Request $request){
+        $validator = Validator::make($request->all(), [
+            'produk' => 'required|min:6',
+            'price' => 'required',
+            'stock' => 'required',
+        ], [
+            'produk.required' => 'nama produk harus di isi.',
+        ]);
+
+        $validator->validate();
+
         produk::create([
             'produk' => $request->produk,
             'price' => $request->price,
@@ -63,6 +73,6 @@ class ProdukController extends Controller
         'stock'   => $request->stock,
     ]);
 
-    return redirect('/produk');
+    return redirect('/produk')->with('success', 'data berhasil diedit');
     }
 }
