@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('produk','App\Http\Controllers\ApiController@produk_index');
+Route::post('produk/add','App\Http\Controllers\ApiController@produk_store');
+Route::get('produk/{id}','App\Http\Controllers\ApiController@produk_by_id');
+Route::delete('produk/{id}','App\Http\Controllers\ApiController@produk_delete');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\profileController;
 use App\Http\Controllers\ProdukController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +16,13 @@ use App\Http\Controllers\ProdukController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/about', function () {
     return 'Halaman About';
 });
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -51,6 +50,19 @@ Route::get('/about/{search}', function () {
 //     $nama ="Resa Meylani";
 //     return view ('profile', compact('nama'));
 // });
+
+
 Route::resource('user', UserController::class);
 Route::resource('profile', ProfileController::class);
 Route::resource('produk', ProdukController::class);
+Route::middleware(['auth', 'user'])->group(function() {
+    Route::resource('produk', ProdukController::class);
+});
+
+
+Auth::routes();
+Route::get('/home',[App\Http\controllers\HomeController::class,'index'])->name('home')->middleware('role:user');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
